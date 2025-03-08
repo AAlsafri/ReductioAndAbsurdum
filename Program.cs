@@ -10,6 +10,7 @@ Main Menu:
 2. Add a product
 3. Delete a product
 4. Update a product
+5. 
 ");
 
     if (choice == "0")

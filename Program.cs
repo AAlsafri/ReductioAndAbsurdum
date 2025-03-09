@@ -1,6 +1,20 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System;
 
+List<Product> products = new List<Product>()
+{
+    new Product() { Name = "Invisibility Cloak", Price = 150.00M, Sold = false, ProductTypeId = 3, DateStocked = new DateTime(2024, 2, 15) },
+    new Product() { Name = "Phoenix Feather Wand", Price = 200.00M, Sold = false, ProductTypeId = 4, DateStocked = new DateTime(2024, 1, 10) },
+    new Product() { Name = "Dragon Scale Armor", Price = 350.00M, Sold = true, ProductTypeId = 1, DateStocked = new DateTime(2023, 12, 1) },
+    new Product() { Name = "Elixir of Eternal Youth", Price = 500.00M, Sold = false, ProductTypeId = 2, DateStocked = new DateTime(2024, 3, 5) },
+    new Product() { Name = "Talking Spellbook", Price = 120.00M, Sold = true, ProductTypeId = 3, DateStocked = new DateTime(2024, 1, 25) },
+    new Product() { Name = "Wizard Hat of Wisdom", Price = 80.00M, Sold = false, ProductTypeId = 1, DateStocked = new DateTime(2024, 2, 28) },
+    new Product() { Name = "Potion of Luck", Price = 60.00M, Sold = false, ProductTypeId = 2, DateStocked = new DateTime(2024, 3, 10) },
+    new Product() { Name = "Crystal Ball", Price = 175.00M, Sold = true, ProductTypeId = 3, DateStocked = new DateTime(2023, 11, 20) },
+    new Product() { Name = "Silver Oak Wand", Price = 250.00M, Sold = false, ProductTypeId = 4, DateStocked = new DateTime(2024, 3, 1) },
+    new Product() { Name = "Basilisk Fang Dagger", Price = 300.00M, Sold = false, ProductTypeId = 1, DateStocked = new DateTime(2024, 1, 5) }
+};
+
 string choice = null;
 while (choice != "0")
 {
@@ -33,7 +47,8 @@ Main Menu:
     }
     else if (choice == "1")
     {
-        Console.WriteLine("Viewing all products..");
+        // Console.WriteLine("Viewing all products..");
+        ListProducts();
     }
     else if (choice == "2")
     {
@@ -60,4 +75,11 @@ Main Menu:
     Console.Clear();
 }
 
-List<Product> products = new List<Product>();
+void ListProducts()
+{
+    Console.WriteLine("All Products: ");
+    for (int i = 0; i < products.Count; i++)
+    {
+        Console.WriteLine($"{i + 1}. {products[i]}");
+    }
+}

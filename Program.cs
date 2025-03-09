@@ -1,5 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+using System;
 
 string choice = null;
 while (choice != "0")
@@ -59,3 +59,5 @@ Main Menu:
     Console.ReadKey();
     Console.Clear();
 }
+
+List<Product> products = new List<Product>();

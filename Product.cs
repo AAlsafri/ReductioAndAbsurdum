@@ -5,4 +5,12 @@ public class Product()
     public bool Sold {get; set;}
     public int ProductTypeId {get; set;}
     public DateTime DateStocked {get; set;}
+    public int DaysOnShelf
+    {
+        get
+        {
+            TimeSpan TimeOnShelf = DateTime.Now - DateStocked;
+            return TimeOnShelf.Days;
+        }
+    }
 }

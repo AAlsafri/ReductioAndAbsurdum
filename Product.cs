@@ -13,4 +13,9 @@ public class Product()
             return TimeOnShelf.Days;
         }
     }
+
+    public override string ToString()
+    {
+        return $"Name: {Name}, Price: {Price}, Sold: {(Sold ? "Yes" : "No")}, Days on Shelf: {DaysOnShelf}";
+    }
 }

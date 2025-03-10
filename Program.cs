@@ -25,7 +25,7 @@ Main Menu:
 2. Add a product
 3. Delete a product
 4. Update a product
-5. 
+5. Available products 
 ");
 
     choice = Console.ReadLine();
@@ -52,19 +52,22 @@ Main Menu:
     }
     else if (choice == "2")
     {
-        Console.WriteLine("Adding a products..");
+        // Console.WriteLine("Adding a products..");
+        PostProduct();
     }
     else if (choice == "3")
     {
-        Console.WriteLine("Deleting a products..");
+        // Console.WriteLine("Deleting a products..");
+        RemoveProduct();
     }
     else if (choice == "4")
     {
-        Console.WriteLine("Updating a products..");
+        UpdateProduct();
     }
     else if (choice == "5")
     {
-        Console.WriteLine("Searching for products by type...");
+        // Console.WriteLine("Searching for products by type...");
+        AvailableProducts();
     }
     else
     {
@@ -78,8 +81,122 @@ Main Menu:
 void ListProducts()
 {
     Console.WriteLine("All Products: ");
-    for (int i = 0; i < products.Count; i++)
+
+    var productStrings = products
+        .Select((p, index) => $"{index + 1}. {p}")
+        .ToList();
+
+    foreach (string productString in productStrings)
     {
-        Console.WriteLine($"{i + 1}. {products[i]}");
+        Console.WriteLine(productString);
+    }
+}
+
+void PostProduct()
+{
+    Console.WriteLine("Enter product name: ");
+    string name = Console.ReadLine();
+
+    Console.WriteLine("Enter product price: ");
+    decimal price = Decimal.Parse(Console.ReadLine());
+
+    Console.WriteLine("Is the product sold? (y/n): ");
+    bool sold = Console.ReadLine().Trim().ToLower() == "y";
+
+    Console.WriteLine("Enter product type ID (1-4): ");
+    int ProductTypeId = int.Parse(Console.ReadLine());
+
+    Product newProduct = new()
+    {
+        Name = name,
+        Price = price,
+        Sold = sold,
+        ProductTypeId = ProductTypeId,
+        DateStocked = DateTime.Now
+    };
+
+    products.Add(newProduct);
+    Console.WriteLine($"{name} was successfully added to the shop!");
+}
+
+void AvailableProducts()
+{
+    List<Product> unsoldProducts = products.Where(p => !p.Sold).ToList();
+    foreach (Product unsold in unsoldProducts)
+    {
+        Console.WriteLine(unsold);
+    }
+}
+
+void RemoveProduct()
+{
+    ListProducts();
+    Console.WriteLine(@"To remove a product, enter its **name or number** from the list above: ");
+    string input = Console.ReadLine();
+
+    if (int.TryParse(input, out int productNumber) && productNumber >= 1 && productNumber <= products.Count)
+    {
+        Product toRemove = products[productNumber - 1];
+        products.Remove(toRemove);
+        Console.WriteLine($"{toRemove.Name} was removed from the list.");
+    }
+    else
+    {
+        Product matchingProduct = products.FirstOrDefault(p => p.Name.StartsWith(input, StringComparison.OrdinalIgnoreCase));
+
+        if (matchingProduct != null)
+        {
+            products.Remove(matchingProduct);
+            Console.WriteLine($"{matchingProduct.Name} was removed from the list.");
+        }
+        else
+        {
+            Console.WriteLine("No matching product found.");
+        }
+    }
+}
+
+void UpdateProduct()
+{
+    ListProducts();
+    Console.WriteLine("To update a product, enter the product name (or starting letters):");
+
+    string input = Console.ReadLine();
+    Product toUpdate = products.FirstOrDefault(p => p.Name.StartsWith(input, StringComparison.OrdinalIgnoreCase));
+
+    if (toUpdate != null)
+    {
+        Console.WriteLine($"Updating {toUpdate.Name}...");
+
+        Console.WriteLine("Enter a new name (or press Enter to keep current): ");
+        string newName = Console.ReadLine();
+        if (!string.IsNullOrWhiteSpace(newName))
+        {
+            toUpdate.Name = newName;
+        }
+
+        Console.WriteLine("Enter a new price (or press Enter to keep current): ");
+        string newPriceInput = Console.ReadLine();
+        if (decimal.TryParse(newPriceInput, out decimal newPrice))
+        {
+            toUpdate.Price = newPrice;
+        }
+
+        Console.Write("Is the product sold? (y/n or press Enter to keep current): ");
+        string soldInput = Console.ReadLine().Trim().ToLower();
+        if (soldInput == "y")
+        {
+            toUpdate.Sold = true;
+        }
+        else if (soldInput == "n")
+        {
+            toUpdate.Sold = false;
+        }
+
+        Console.WriteLine("Product updated successfully.");
+    }
+    else
+    {
+        Console.WriteLine("No product found matching that name.");
     }
 }

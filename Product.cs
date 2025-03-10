@@ -10,12 +10,12 @@ public class Product()
         get
         {
             TimeSpan TimeOnShelf = DateTime.Now - DateStocked;
-            return TimeOnShelf.Days;
+            return TimeOnShelf.Days + 1;
         }
     }
 
     public override string ToString()
     {
-        return $"Name: {Name}, Price: {Price}, Sold: {(Sold ? "Yes" : "No")}, Days on Shelf: {DaysOnShelf}";
+        return $"{Name}, Price: {Price}, Sold: {(Sold ? "Yes" : "No")}, Days on Shelf: {DaysOnShelf}";
     }
 }
